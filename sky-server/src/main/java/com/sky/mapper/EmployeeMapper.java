@@ -37,4 +37,10 @@ public interface EmployeeMapper {
      */
     Page<Employee> pageQuery(String name);
 
+    /**
+     * 启用禁用员工账号
+     * @param employee
+     */
+
+    void update(Employee employee);
 }
