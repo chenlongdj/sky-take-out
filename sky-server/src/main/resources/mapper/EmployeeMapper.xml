@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.EmployeeMapper">
-<!--       启用禁用员工账号-->
+<!--       启用禁用员工账号  || 编辑员工信息-->
     <update id="update" parameterType="Employee">
         update employee
         <set>
@@ -16,9 +16,12 @@
             <if test="updateUser!=null">update_user=#{updateUser},</if>
             <if test="status!=null">status=#{status},</if>
         </set>
-        where  id=#{id}
+            where id=#{id}
     </update>
 
+
+<!--   编辑员工信息 -->
+    <update id="updateById"></update>
 
 
     <!--    分页查询-->

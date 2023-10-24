@@ -1,9 +1,11 @@
 package com.sky.controller.admin;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
+import com.sky.dto.PasswordEditDTO;
 import com.sky.entity.Employee;
 import com.sky.properties.JwtProperties;
 import com.sky.result.PageResult;
@@ -14,6 +16,7 @@ import com.sky.vo.EmployeeLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -89,7 +92,7 @@ public class EmployeeController {
         return Result.success();
     }
     /**
-     * 分页查询
+     * 员工分页查询
      */
     @GetMapping("/page")
     @ApiOperation("员工分页查询")
@@ -102,7 +105,6 @@ public class EmployeeController {
 
     /**
      * 启用禁用员工账号
-     * @param status
      * @param id
      * @return
      */
@@ -113,6 +115,49 @@ public class EmployeeController {
         employeeService.startOrStop(status,id);
         return Result.success();
     }
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询员工信息")
+    public  Result<EmployeeDTO> getById(@PathVariable Long id){
+           EmployeeDTO employeeDTO= employeeService.getById(id);
+         return  Result.success(employeeDTO);
+    }
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     * @return
+     */
+
+    @PutMapping
+    @ApiOperation("编辑员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
+
+    /**
+     * 编辑员工密码
+     * @param passwordEditDTO
+     * @return
+     */
+    @PutMapping("/editPassword")
+    @ApiOperation("编辑员工密码")
+    public Result editPassword(@RequestBody PasswordEditDTO passwordEditDTO){
+        Long empId = BaseContext.getCurrentId();
+        passwordEditDTO.setEmpId(empId);
+        employeeService.editPassword(passwordEditDTO);
+        return Result.success();
+
+    }
+
+
 
 
 }
